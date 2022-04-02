@@ -234,4 +234,12 @@ public class RenderBatch {
         return hasSpace;
     }
 
+    public boolean hasTextureSpace() {
+        return textures.size() < 8;
+    }
+
+    public boolean hasTexture(Texture texture) {
+        return textures.contains(texture);
+    }
+
 }
