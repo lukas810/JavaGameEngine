@@ -4,12 +4,16 @@ import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 import game.Component;
+import game.Transform;
 import game.renderer.Texture;
 
 public class SpriteRenderer extends Component{
 
     private Vector4f color;
     private Sprite sprite;
+
+    private Transform lastTransform;
+    private boolean isDirty = false;
     
     public SpriteRenderer(Vector4f color) {
         this.color = color;
@@ -23,12 +27,16 @@ public class SpriteRenderer extends Component{
 
     @Override
     public void start() {
+        this.lastTransform = gameObject.transform.copy();
         
     }
 
     @Override
     public void update(float dt) {
-        // TODO Auto-generated method stub
+        if(!lastTransform.equals(gameObject.transform)) {
+            gameObject.transform.copy(lastTransform);
+            isDirty = true;
+        }
         
     }
 
@@ -43,4 +51,25 @@ public class SpriteRenderer extends Component{
     public Vector2f[] getTexCoords() {
         return sprite.getTexCoords();
     }
+
+    public void setColor(Vector4f color) {
+        if(!this.color.equals(color)) {
+            this.color = color;
+            isDirty = true;
+        }
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+        isDirty = true;
+    }
+
+    public boolean isDirty() {
+        return isDirty;
+    }
+
+    public void setClean() {
+        isDirty = false;
+    }
+
 }

@@ -5,7 +5,6 @@ import org.joml.Vector2f;
 import game.Camera;
 import game.GameObject;
 import game.Transform;
-import game.components.Sprite;
 import game.components.SpriteRenderer;
 import game.components.Spritesheet;
 import game.util.AssetPool;
