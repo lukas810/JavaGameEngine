@@ -12,7 +12,7 @@ import game.Window;
 import game.components.SpriteRenderer;
 import game.util.AssetPool;
 
-public class RenderBatch {
+public class RenderBatch implements Comparable<RenderBatch>{
     // vertex
     // ------
     // position       color                        tex coords      tex id
@@ -42,11 +42,13 @@ public class RenderBatch {
 
     private int maxBatchSize;
     private Shader shader;
+    private int zIndex;
 
-    public RenderBatch(int maxBatchSize) {
-        shader = AssetPool.getShader("assets/shaders/default.glsl");
+    public RenderBatch(int maxBatchSize, int zIndex) {
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
+        this.zIndex = zIndex;
+        shader = AssetPool.getShader("assets/shaders/default.glsl");
 
         // 4 vertices quads
         vertices = new float[maxBatchSize * 4 * VERTEX_SIZE];
@@ -251,6 +253,15 @@ public class RenderBatch {
 
     public boolean hasTexture(Texture texture) {
         return textures.contains(texture);
+    }
+
+    public int getZIndex() {
+        return zIndex;
+    }
+
+    @Override
+    public int compareTo(RenderBatch o) {
+        return Integer.compare(this.zIndex, o.getZIndex());
     }
 
 }
